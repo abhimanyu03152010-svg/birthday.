@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Mauli!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 50%, #fe9a9a 100%);
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            color: #4a4a4a;
+            padding: 20px 10px;
+        }
+
+        /* Continuous Popping Heart & Text Layer */
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            bottom: -80px;
+            animation: floatUp 6s linear infinite;
+            white-space: nowrap;
+            user-select: none;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .floating-heart {
+            color: rgba(255, 255, 255, 0.85);
+            filter: drop-shadow(0 0 6px rgba(255, 0, 76, 0.6));
+        }
+
+        .floating-text {
+            color: rgba(255, 240, 242, 0.9);
+            font-weight: bold;
+            font-style: italic;
+            letter-spacing: 1px;
+            background: rgba(255, 75, 110, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(2px);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.6) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% {
+                transform: translateY(-120vh) scale(1.3) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Romantic Container Layout */
+        .container {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 35px 25px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 20px 50px rgba(186, 15, 52, 0.3);
+            text-align: center;
+            z-index: 2;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+
+        h1 {
+            color: #d11d44;
+            margin-bottom: 5px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .sub-heading {
+            font-size: 1.3rem;
+            color: #ff3366;
+            margin-bottom: 25px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Music Pulsing Control Button */
+        .audio-btn {
+            background: linear-gradient(45deg, #ff1a4a, #ff4b72);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(255, 26, 74, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); box-shadow: 0 8px 30px rgba(255, 26, 74, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .audio-btn.playing {
+            background: linear-gradient(45deg, #2288ff, #44bbff);
+            box-shadow: 0 8px 25px rgba(34, 136, 255, 0.4);
+            animation: none;
+        }
+
+        /* Timer Block */
+        .timer-container {
+            background: linear-gradient(180deg, #ffffff 0%, #fff0f2 100%);
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(255, 75, 110, 0.1);
+            margin-bottom: 30px;
+            border: 1.5px solid rgba(255, 75, 110, 0.25);
+        }
+
+        .timer-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #777;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .time-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #d11d44;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Surprise Letters Matrix */
+        .letters-instruction {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: #444;
+            font-weight: bold;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .letter-card {
+            background: #ffffff;
+            border: 2px solid rgba(255, 75, 110, 0.25);
+            border-radius: 15px;
+            padding: 22px 10px;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.03);
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: #fff0f3;
+            border-color: #ff1a4a;
+        }
+
+        .letter-card.opened {
+            background: #ffe3e8;
+            border-color: #ff1a4a;
+            transform: none;
+            cursor: default;
+        }
+
+        .message-display-box {
+            background: #fffdfb;
+            border: 2px dashed #ff4b72;
+            border-left: 6px solid #d11d44;
+            padding: 25px;
+            border-radius: 15px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #333;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+            line-height: 1.6;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- GIANT BIRTHDAY POP-OUT MODAL --- */
+        .birthday-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff1a4a 0%, #ff7eb3 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+            padding: 20px;
+        }
+
+        .birthday-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            transform: scale(0.7);
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #fff;
+        }
+
+        .birthday-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .giant-message {
+            font-size: 2.5rem;
+            color: #d11d44;
+            line-height: 1.4;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: celebratoryScale 1.5s infinite alternate;
+        }
+
+        @keyframes celebratoryScale {
+            0% { transform: scale(0.96); }
+            100% { transform: scale(1.04); }
+        }
+
+        .infinite-hearts-sparkle {
+            font-size: 3.5rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Populating Canvas Elements -->
+    <div class="animation-container" id="animationContainer"></div>
+
+    <!-- Base Desktop Platform Card Layout -->
+    <div class="container">
+        <h1>For My Beautiful Wife, Mauli 💝</h1>
+        <div class="sub-heading">You Are My Whole World</div>
+
+        <!-- Music Interactive Access Point -->
+        <button class="audio-btn" id="musicBtn" onclick="togglePlayback()">
+            <span id="btnIcon">🎵</span> <span id="btnText">Play Raindance for Mauli</span>
+        </button>
+        
+        <!-- Underlying Audio File Anchor -->
+        <audio id="bgAudio" src="Dave-Raindance-ft-Tems-(Giranhypehouse.com).m4a" preload="auto"></audio>
+
+        <!-- Dynamic Clock Tracker -->
+        <div class="timer-container">
+            <div class="timer-title" id="timerHeader">Counting Down Every Heartbeat Until Your Birthday</div>
+            <div class="countdown">
+                <div class="time-box">
+                    <span class="time-number" id="hours">00</span>
+                    <span class="time-label">HOURS</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-number" id="minutes">00</span>
+                    <span class="time-label">MINUTES</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-number" id="seconds">00</span>
+                    <span class="time-label">SECONDS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Letters Grid Frame -->
+        <div>
+            <div class="letters-instruction">✨ Tap an envelope to reveal a private message, Meri Jaan:</div>
+            <div class="letters-grid">
+                <div class="letter-card" onclick="revealSurprise(0, this)">✉️</div>
+                <div class="letter-card" onclick="revealSurprise(1, this)">✉️</div>
+                <div class="letter-card" onclick="revealSurprise(2, this)">✉️</div>
+                <div class="letter-card" onclick="revealSurprise(3, this)">✉️</div>
+                <div class="letter-card" onclick="revealSurprise(4, this)">✉️</div>
+                <div class="letter-card" onclick="revealSurprise(5, this)">✉️</div>
+            </div>
+            <div class="message-display-box" id="displayBox">
+                Choose an envelope, my queen...
+            </div>
+        </div>
+    </div>
+
+    <!-- THE GIANT BIRTHDAY POP-OUT MODAL -->
+    <div class="birthday-overlay" id="birthdayModal">
+        <div class="modal-content">
+            <div class="giant-message">
+                I love you so much Mauli <br>&<br> Happy birthday meri jaan! ❤️ 👑
+            </div>
+            <p style="font-size: 1.2rem; color: #555; font-style: italic;">
+                You mean absolutely everything to me. Today, tomorrow, and forever.
+            </p>
+            <div class="infinite-hearts-sparkle">💖✨🎉🎁🎉✨💖</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SET UP THE BIRTHDAY COUNTDOWN & POP-OUT TRIGGER ---
+        const targetBirthday = new Date();
+        targetBirthday.setDate(targetBirthday.getDate() + 1);
+        targetBirthday.setHours(0, 0, 0, 0); // Sets clock to target Midnight Tonight
+        const countdownTime = targetBirthday.getTime();
+
+        function runTimer() {
+            const now = new Date().getTime();
+            const gap = countdownTime - now;
+
+            if (gap <= 0) {
+                // Timer Ends: Launch the giant customized birthday overlay!
+                document.getElementById('birthdayModal').classList.add('active');
+                document.getElementById('timerHeader').innerText = "🎉 HAPPY BIRTHDAY MERI JAAN! 🎉";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('minutes').innerText = "00";
+                document.getElementById('seconds').innerText = "00";
+                clearInterval(timerTracker);
+                return;
+            }
+
+            const hours = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((gap % (1000 * 60)) / 1000);
+
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        const timerTracker = setInterval(runTimer, 1000);
+        runTimer();
+
+
+        // --- 2. MULTIPLE REVEALABLE SURPRISE MESSAGES ---
+        const surpriseNotes = [
+            "To the woman who makes my world brighter every single day, happy early birthday! You are my absolute everything. ❤️",
+            "Mauli, you are my heart, my soul, and my greatest adventure. I love you more than words can ever describe. 💕",
+            "Counting down every single second until we get to celebrate the most beautiful, caring, and amazing person I know—You, Meri Jaan!",
+            "Every day with you feels like an incredible gift, but tomorrow is entirely yours. Happy Birthday, my beautiful wife! 💖",
+            "Thank you for being my anchor, my absolute smile, and my forever companion. I am incredibly blessed to call you mine. 💝",
+            "May this upcoming year bring you as much boundless happiness, laughter, and pure joy as you bring into my life every day, my queen! 💘"
+        ];
+
+        function revealSurprise(index, element) {
+            const displayBox = document.getElementById('displayBox');
+            
+            document.querySelectorAll('.letter-card').forEach(card => card.classList.remove('opened'));
+            element.classList.add('opened');
+            element.innerText = "💌";
+
+            displayBox.style.opacity = 0;
+            setTimeout(() => {
+                displayBox.innerHTML = surpriseNotes[index];
+                displayBox.style.opacity = 1;
+            }, 200);
+        }
+
+
+        // --- 3. INTENSE HEARTS & ROMANTIC TEXT POPPING LAYER ---
+        const animationContainer = document.getElementById('animationContainer');
+        const heartIcons = ['❤️', '💖', '💝', '💕', '💘', '🌸', '🌹'];
+        const phraseMessages = ["I love you Mauli", "meri jaan", "My Queen 👑", "Forever Yours ❤️"];
+
+        function spawnFloatingAsset() {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            // 50/50 Chance to create a beautifully stylized heart or a direct personalized romantic phrase
+            if (Math.random() > 0.5) {
+                element.classList.add('floating-heart');
+                element.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                element.style.fontSize = (Math.random() * 25 + 20) + 'px'; // Giant popping hearts
+            } else {
+                element.classList.add('floating-text');
+                element.innerText = phraseMessages[Math.floor(Math.random() * phraseMessages.length)];
+                element.style.fontSize = (Math.random() * 4 + 15) + 'px';
+            }
+            
+            element.style.left = Math.random() * 92 + 'vw';
+            element.style.animationDuration = (Math.random() * 3 + 3.5) + 's'; // Faster intervals for more intense filling
+            
+            animationContainer.appendChild(element);
+
+            setTimeout(() => { element.remove(); }, 6500);
+        }
+        // Spawns elements extremely fast to completely fill her screen with affection
+        setInterval(spawnFloatingAsset, 220); 
+
+
+        // --- 4. ACCURATE AUDIO TRACK TIMESTAMP LOOP CONTROL (2:24 - 2:50) ---
+        const audio = document.getElementById('bgAudio');
+        const musicBtn = document.getElementById('musicBtn');
+        const btnIcon = document.getElementById('btnIcon');
+        const btnText = document.getElementById('btnText');
+
+        const loopStart = 144; // 2 mins 24 seconds
+        const loopEnd = 170;   // 2 mins 50 seconds
+        let loopCheckInterval;
+
+        function checkTimestamp() {
+            if (audio.currentTime >= loopEnd || audio.currentTime < loopStart) {
+                audio.currentTime = loopStart;
+            }
+        }
+
+        function togglePlayback() {
+            if (audio.paused) {
+                if (audio.currentTime < loopStart || audio.currentTime > loopEnd) {
+                    audio.currentTime = loopStart;
+                }
+                
+                audio.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    btnIcon.innerText = "⏸️";
+                    btnText.innerText = "Pause Music";
+                    loopCheckInterval = setInterval(checkTimestamp, 200);
+                }).catch(err => {
+                    console.log("Playback blocked: ", err);
+                });
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+                btnIcon.innerText = "🎵";
+                btnText.innerText = "Play Raindance for Mauli";
+                clearInterval(loopCheckInterval);
+            }
+        }
+    </script>
+</body>
+</html>
